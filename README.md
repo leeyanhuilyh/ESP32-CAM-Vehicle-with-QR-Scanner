@@ -49,8 +49,10 @@ Upon powering up the vehicle, the LED would flash a couple of times. This means 
 
 Enter 192.168.137.20 into your web browser on either your phone or your PC.
 
-The vehicle should now be working as intended! Try scanning a few QR codes to test it out!
+The vehicle should now be working as intended! Try scanning a few QR codes [2] to test it out!
 
-Additional notes:
+### Additional notes:
 
 [1] The rationale for this is the ESP32-CAM always assigns a new IP address to the ESP32-CAM upon connection, but we need a static IP address in order to control the ESP32-CAM board consistently, and without hassle. Only a PC hotspot is able to achieve this. Mobile phone hotspots do not offer the feature of assigning a static IP address.
+
+[2] The QR scanner only works on specially encrypted QR codes. Scanning normal QR codes would only produce gibberish.
