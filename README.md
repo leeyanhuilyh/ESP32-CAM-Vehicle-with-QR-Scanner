@@ -26,10 +26,10 @@ Replace the platformio.ini file in your working directory with the downloaded pl
 
 Go to main.cpp and search for the lines:
 
-'''
+```
 const char* ssid = "XXXXX";
 const char* password = "XXXXX";
-'''
+```
 
 Replace this with your WiFi Access Point credentials
 
