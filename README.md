@@ -26,8 +26,10 @@ Replace the platformio.ini file in your working directory with the downloaded pl
 
 Go to main.cpp and search for the lines:
 
+'''
 const char* ssid = "XXXXX";
 const char* password = "XXXXX";
+'''
 
 Replace this with your WiFi Access Point credentials
 
@@ -41,7 +43,7 @@ To begin uploading to the ESP32-CAM, please follow this [wiring guide](https://i
 
 ## Wiring up the board
 
-Please follow this [wiring guide](https://imgur.com/W20d9TJ) and wire up the boards accordingly.
+Please follow this [wiring guide](https://imgur.com/W20d9TJ) and wire up the components accordingly.
 
 ## Connecting to the vehicle
 
