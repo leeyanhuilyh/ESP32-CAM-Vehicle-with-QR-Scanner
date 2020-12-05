@@ -3,7 +3,6 @@
 #include "soc/soc.h"          
 #include "soc/rtc_cntl_reg.h"
 
-
 #include "qrcode_recognize.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -69,7 +68,7 @@ extern int Rb = 14; // Right Wheel Back 14
 extern int Rf = 2; // Right Wheel Forward 2
 extern int LED =  4; // Light
 extern String WiFiAddr = "";
-char *payload_temp = "";
+String payload_master = "";
 
 void startCameraServer();
 
@@ -83,14 +82,17 @@ IPAddress secondaryDNS(8, 8, 4, 4); //optional
 
 // QR Code functions
 
+/*
 static void print_payload() {
     printf("manual print payload: %s\n", payload_temp);
-}
+}*/
+
 
 static void dump_data(const struct quirc_data *data)
 {   
-    payload_temp = reinterpret_cast<char*>(const_cast<uint8_t*>(data->payload));
-    
+    char *payload_temp;
+    payload_temp = reinterpret_cast<char*>(const_cast<uint8_t*>(data->payload)); //already a char
+    /*
     printf("    Version: %d\n", data->version);
     printf("    ECC level: %c\n", "MLHQ"[data->ecc_level]);
     printf("    Mask: %d\n", data->mask);
@@ -103,8 +105,56 @@ static void dump_data(const struct quirc_data *data)
         printf("\033[31m    ECI: %d\n", data->eci);
     }
     printf("\033[0m\n");
-    
+    */
+   int i;
+   int cipher1 = payload_temp[0] - '0'; // - 0 converts char to int, + is from int to char
+   int cipher1_op = payload_temp[1] - '0';
+   int cipher2 = payload_temp[2] - '0';
+   int cipher2_op = payload_temp[3] - '0';
+   int cipher3 = payload_temp[4] - '0';
+   int cipher3_op = payload_temp[5] - '0';
+
+    for (i=6;i<strlen(payload_temp);i++) {
+        if (cipher1_op % 2 == 0) {
+            payload_temp[i] = payload_temp[i] - '0' - cipher1 + '0';
+        } else {
+            payload_temp[i] = payload_temp[i] - '0' + cipher1 + '0';
+        }
+    }
+
+    for (i=6;i<strlen(payload_temp);i++) {
+        if (cipher2_op % 2 == 0) {
+            payload_temp[i] = payload_temp[i] - '0' - cipher2 + '0';
+        } else {
+            payload_temp[i] = payload_temp[i] - '0' + cipher2 + '0';
+        }
+    }
+
+    for (i=6;i<strlen(payload_temp);i++) {
+        if (cipher3_op % 2 == 0) {
+            payload_temp[i] = payload_temp[i] - '0' - cipher3 + '0';
+        } else {
+            payload_temp[i] = payload_temp[i] - '0' + cipher3 + '0';
+        }
+    }
+
+    //replace '_' with ' '
+    for (i=0;i<strlen(payload_temp);i++) {
+        if (payload_temp[i] == 95) {
+            payload_temp[i] = 32;
+        }
+    }
+
+   payload_master += payload_temp;
+   payload_master += "<br>";
+   
    printf("Payload: %s\n", payload_temp);
+   printf("Length of payload_temp: %d\n", strlen(payload_temp));
+   printf("%d\n", payload_temp[0]);
+   printf("%d\n", payload_temp[1]);
+   printf("%d\n", payload_temp[2]);
+
+
 
 }
 
@@ -200,7 +250,7 @@ void qr_recoginze(void *parameter)
 
         // Print information of QR-code
         dump_info(qr_recognizer, id_count);
-        print_payload();
+        //print_payload();
         esp_camera_fb_return(fb);
     }
     // Destroy QR-Code recognizer (quirc)
@@ -260,7 +310,7 @@ void setup()
   camera_config.xclk_freq_hz = 20000000;
   camera_config.pixel_format = PIXFORMAT_GRAYSCALE;
   
-  camera_config.frame_size = FRAMESIZE_QQVGA;  // set picture size, FRAMESIZE_VGA (640x480)
+  camera_config.frame_size = FRAMESIZE_QCIF;  // set picture size, FRAMESIZE_VGA (640x480)
   camera_config.jpeg_quality = 15;           // quality of JPEG output. 0-63 lower means higher quality
   camera_config.fb_count = 1;              // 1: Wait for V-Synch // 2: Continous Capture (Video)
 
@@ -590,21 +640,27 @@ static esp_err_t status_handler(httpd_req_t *req){
     return httpd_resp_send(req, json_response, strlen(json_response));
 }
 
+char temp[1000];
+int buf = 0;
 
 static esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
     String page = "";
-    char temp[50];
-    sprintf(temp, "%s\n", payload_temp);
+    /*
+    buf += strlen(payload_temp);
+    strcpy(temp, payload_temp);
+    printf("temp is %s", temp);
+    printf("buf is %d", buf);
+    */
     page += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0\">";
     page += "<script>var xhttp = new XMLHttpRequest();</script>";
     page += "<script>function getsend(arg) { xhttp.open('GET', arg +'?' + new Date().getTime(), true); xhttp.send() } </script>";
     page += "<div style='min-width:500px; max-width:1200px;margin:0 auto;'>";
-    page += "<div style='display:block; text-align:center; border:2px solid green;' id='image-container'>";
+    page += "<div style='display:block; text-align:center;' id='image-container'>";
     page += "<div style='display:inline-block; height:200px; width:200px; text-align: center;'><IMG SRC='http://" + WiFiAddr + ":81/stream' style='width:200px; height:200px; transform:rotate(90deg);'><br/><br/></div>";
     page += "<div style='display:inline-block; height:200px; width:200px; text-align: center;'><IMG SRC='http://192.168.137.10:81/stream' style='width:200px; height:200px; transform:rotate(90deg);'><br/><br/></div>";
     page += "</div>";
-    page += "<div style='float:left; width:50%; border:2px solid red;'>";
+    page += "<div style='float:left; width:49%;'>";
     page += "<p align=center><button style=width:60px;height:60px onmousedown=getsend('go') onmouseup=getsend('stop') ontouchstart=getsend('go') ontouchend=getsend('stop') ></button></p>";
     page += "<p align=center><button style=width:60px;height:60px onmousedown=getsend('left') onmouseup=getsend('stop') ontouchstart=getsend('left') ontouchend=getsend('stop')></button>&nbsp;";
     page += "<button style=width:60px;height:60px onmousedown=getsend('stop') onmouseup=getsend('stop')></button>&nbsp;";
@@ -612,9 +668,18 @@ static esp_err_t index_handler(httpd_req_t *req){
     page += "<p align=center><button style=width:60px;height:60px onmousedown=getsend('back') onmouseup=getsend('stop') ontouchstart=getsend('back') ontouchend=getsend('stop') ></button></p>";
     page += "<p align=center><button style=width:140px;height:40px onmousedown=getsend('ledon')>LED ON</button>";
     page += "<button style=width:140px;height:40px onmousedown=getsend('ledoff')>LED OFF</button></p>";
-    page += "</div><div style='height: 1000px; width:49%; border:2px solid blue; float:left;'>";   
-    page += temp;
-    page += "</div></div>";
+    page += "</div><div style='min-height: 500px; width:49%; float:left;'>";   
+    page += "<div id='qrcontainer' style='margin:0 20px;'>";
+    page += "<p style='padding: 0 20px;'><b>Your scanned QR codes will appear here!</b></p>";
+    page += "<button style='margin:0 20px;'id='refreshqr'>Click to update QR!</button>";
+    page += "<div id='qrcodes'>";
+    page += "<p style='padding: 0 20px;'>";
+    page += payload_master + "</p>";
+    page += "<br></div></div></div></div>";
+    page += "<script>var qrbutton = document.getElementById('refreshqr');";
+    page += "qrbutton.onclick = function(){location.reload()};";
+    page += "qrbutton.ontouchstart = function(){location.reload()};";
+    page += "</script>";
     return httpd_resp_send(req, &page[0], strlen(&page[0]));
 }
 
