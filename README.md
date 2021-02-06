@@ -1,12 +1,20 @@
 # ESP32-CAM-Vehicle-with-QR-Scanner
 
-This repository will contain the instructions to build the vehicle, and the files that need to be uploaded to the ESP32-CAM board.
+This repository will contain the the files that need to be uploaded to the ESP32-CAM board and the nstructions to build the vehicle.
+
+# Software
 
 ## Pre-requisites
 
 Firstly, please download and install [PlatformIO](https://platformio.org/install/ide?install=vscode).
 
-Then, download the files in this project and extract to any folder.
+Next, clone this repository into your working directory. For the purpose of this tutorial, assume this is the working directory.
+
+```
+C:\repo\ESP32-CAM-Vehicle-with-QR-Scanner
+```
+
+You would also need an [FTDI programmer](https://randomnerdtutorials.com/program-upload-code-esp32-cam/) to upload the code onto the ESP32-CAM. If you have an Arduino Uno, it can also be used as an FTDI programmer. Please follow [this](https://technoreview85.com/how-to-program-esp-32-cam-using-arduino-uno-board/) guide instead
 
 ## Starting a new project on PlatformIO
 
@@ -19,6 +27,10 @@ Choose a name for your project. This would be your working directory from here o
 ## Extracting the files into your project folder
 
 Extract the files found in the "src" folder into your working directory's "src" folder.
+
+```
+C:\repo\ESP32-CAM-Vehicle-with-QR-Scanner\src
+```
 
 Replace the platformio.ini file in your working directory with the downloaded platformio.ini file.
 
@@ -39,19 +51,62 @@ If you're working with 2 ESP32-CAM boards, in order to use the other board as a 
 
 ## Preparing to upload the code
 
-To begin uploading to the ESP32-CAM, please follow this [wiring guide](https://i1.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/12/ESP32-CAM-FTDI-programmer-5V-supply.png?w=750&quality=100&strip=all&ssl=1). Once it's wired up properly, click on the tick in the blue bar at the bottom of the window to verify your code. After it's verified, click on the arrow icon beside it to begin uploading your code!
+![](https://i1.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/12/ESP32-CAM-FTDI-programmer-5V-supply.png?w=750&quality=100&strip=all&ssl=1)
 
-## Wiring up the board
+To begin uploading to the ESP32-CAM, you would need an FTDI programmer. Please follow the wiring guide above. 
 
-Please follow this [wiring guide](https://imgur.com/W20d9TJ) and wire up the components accordingly.
+![](https://docs.platformio.org/en/latest/_images/platformio-ide-vscode-build-project.png)
+Once it's wired up properly, verify your code first, then upload the code.
+
+# Hardware
+
+## Materials needed
+
+1. 1 x Corrugated Board
+2. 2 x Wheel + Motor
+3. 1 x Front Wheel
+4. 1 x Dual Battery Holder
+5. 2 x Rechargeable AA Batteries
+6. 2 x ESP32-CAM
+7. 1 x FTDI Programmer (or Arduino Uno)
+8. 1 x Switch
+9. 2 x [3D printed ESP32-CAM Holders](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
+10. Jumper wires
+11. Tape
+12. 4 x M4 Screws
+13. 3M Velcro (optional)
+
+## Building the vehicle
+
+![Wiring Guide](/doc/imgs/wiring.png)
+
+1. Cut a X x Y cm of the corrugated boards.
+2. Cut another piece of the same dimension. (Note: cut the board with the tracks facing the perpendicular direction for better reinforcement)
+3. Glue the two pieces of cut boards together.
+4. Solder 2 jumper wires to the contacts of the motors.
+5. Affix the L298N motor driver to the end of one side of the board.
+6. Position the motor holders such that they line up with the end of the L298N motor driver.
+7. Poke holes where the holes of the motor holder should be.
+8. Secure the motors (with the wires facing inwards) and connect the motor wires with the L298N driver.
+9. Prepare the wiring for the battery holder. The + terminal should be able to connect to the +12V terminal on the L298N, and the 5V ends on the 2 ESP32-CAM boards, making it a total of 3 terminals. This is the same for the - terminal.
+10. Leave about 3cm of space between the L298N and affix the battery holder.
+11. Connect the battery holder with the L298N
+12. 3D print the ESP32-CAM holders. 3D models available [here](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
+13. Leave about 3cm of space and screw down the holders.
+14. Cut out a small hole in front of the holders for the switch to fit through.
+15. Upload the code to the boards (Please refer to previous sections).
+16. Make the connections of the ESP32-CAM and the switch.
+17. Test it out!
 
 ## Connecting to the vehicle
 
 Upon powering up the vehicle, the LED would flash a couple of times. This means that it is connecting to the WiFi access point. When it stops flashing, it means that it has successfully connected to the access point. If it continues to flash, please check your WiFi setup or credentials.
 
-Enter 192.168.137.20 into your web browser on either your phone or your PC.
+Enter 192.168.137.20 into your web browser on either your phone or your PC. You should see a page similar to the one below.
 
-The vehicle should now be working as intended! Try scanning a few QR codes [2] to test it out!
+![html](/doc/imgs/html.png)
+
+Try moving the vehicle around with the controls and scanning a few QR codes [2].
 
 ### Additional notes:
 
