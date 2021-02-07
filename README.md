@@ -73,7 +73,7 @@ If you're working with 2 ESP32-CAM boards, in order to use the other board as a 
 To begin uploading to the ESP32-CAM, you would need an FTDI programmer. Please follow the wiring guide above. 
 
 ![](https://docs.platformio.org/en/latest/_images/platformio-ide-vscode-build-project.png)
-Once it's wired up properly, verify your code first, then upload the code.
+Once it's wired up properly, build your code first, then upload the code.
 
 # Hardware
 
