@@ -80,7 +80,7 @@ Once it's wired up properly, verify your code first, then upload the code.
 
 ![Wiring Guide](/doc/imgs/wiring.png)
 
-1. Cut a X x Y cm of the corrugated boards.
+1. Cut a 8 x 20 cm of the corrugated boards.
 2. Cut another piece of the same dimension. (Note: cut the board with the tracks facing the perpendicular direction for better reinforcement)
 3. Glue the two pieces of cut boards together.
 4. Solder 2 jumper wires to the contacts of the motors.
@@ -91,12 +91,17 @@ Once it's wired up properly, verify your code first, then upload the code.
 9. Prepare the wiring for the battery holder. The + terminal should be able to connect to the +12V terminal on the L298N, and the 5V ends on the 2 ESP32-CAM boards, making it a total of 3 terminals. This is the same for the - terminal.
 10. Leave about 3cm of space between the L298N and affix the battery holder.
 11. Connect the battery holder with the L298N
-12. 3D print the ESP32-CAM holders. 3D models available [here](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
-13. Leave about 3cm of space and screw down the holders.
-14. Cut out a small hole in front of the holders for the switch to fit through.
-15. Upload the code to the boards (Please refer to previous sections).
-16. Make the connections of the ESP32-CAM and the switch.
-17. Test it out!
+12. Position the front wheel on the underside of the body. Poke holes where the screws should go. The screws should be immediately after (or just a small gap) the battery holder.
+13. Screw in the front wheel.
+14. 3D print the ESP32-CAM holders. 3D models available [here](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
+15. Screw down the holders where there is space.
+16. Finally, cut out a small hole in front of the holders for the switch to fit through.
+17. Connect the switch. This could be done either by soldering the wires to the contacts, or by using quick connects.
+18. Upload the code to the boards (Please refer to previous sections).
+19. Make the connections of the ESP32-CAM and the switch.
+20. Test it out!
+
+(Note: if the ESP32-CAM boards are not stable, affix them to the holders with tape)
 
 ## Connecting to the vehicle
 
