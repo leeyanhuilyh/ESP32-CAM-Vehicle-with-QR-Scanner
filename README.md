@@ -2,6 +2,23 @@
 
 This repository will contain the the files that need to be uploaded to the ESP32-CAM board and the nstructions to build the vehicle.
 
+## Materials needed
+
+1. 1 x Corrugated Board
+2. 2 x Wheel + Motor (w/ screws and nuts)
+3. 1 x Front Wheel
+4. 1 x Dual Battery Holder
+5. 2 x Rechargeable AA Batteries
+6. 2 x ESP32-CAM
+7. 1 x FTDI Programmer (or Arduino Uno)
+8. 1 x Switch
+9. 2 x [3D printed ESP32-CAM Holders](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
+10. Jumper wires
+11. Tape
+12. 4 x M4 Screws and Nuts
+13. 3M Velcro (optional)
+14. Hot glue (optional)
+
 # Software
 
 ## Pre-requisites
@@ -60,48 +77,51 @@ Once it's wired up properly, verify your code first, then upload the code.
 
 # Hardware
 
-## Materials needed
-
-1. 1 x Corrugated Board
-2. 2 x Wheel + Motor
-3. 1 x Front Wheel
-4. 1 x Dual Battery Holder
-5. 2 x Rechargeable AA Batteries
-6. 2 x ESP32-CAM
-7. 1 x FTDI Programmer (or Arduino Uno)
-8. 1 x Switch
-9. 2 x [3D printed ESP32-CAM Holders](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
-10. Jumper wires
-11. Tape
-12. 4 x M4 Screws
-13. 3M Velcro (optional)
-
 ## Building the vehicle
 
 ![Wiring Guide](/doc/imgs/wiring.png)
 
 1. Cut a 8 x 20 cm of the corrugated boards.
 2. Cut another piece of the same dimension. (Note: cut the board with the tracks facing the perpendicular direction for better reinforcement)
+![](/doc/imgs/cross.jpg)
 3. Glue the two pieces of cut boards together.
 4. Solder 2 jumper wires to the contacts of the motors.
 5. Affix the L298N motor driver to the end of one side of the board.
-6. Position the motor holders such that they line up with the end of the L298N motor driver.
+6. Position the motor holders such that they line up in the middle of the L298N motor driver.
+![](doc/imgs/wheel.jpg)
 7. Poke holes where the holes of the motor holder should be.
 8. Secure the motors (with the wires facing inwards) and connect the motor wires with the L298N driver.
-9. Prepare the wiring for the battery holder. The + terminal should be able to connect to the +12V terminal on the L298N, and the 5V ends on the 2 ESP32-CAM boards, making it a total of 3 terminals. This is the same for the - terminal.
+![](doc/imgs/l298n.jpg)
+9. Prepare the wiring for the battery holder. The + terminal should be able to connect to the +12V terminal on the L298N, and the 5V ends on the 2 ESP32-CAM boards, making it a total of 3 terminals. This is the same for the - terminal. Consider using the male end of the jumper wire for the connector and heat shrink the three wires to secure the connection.
+![](doc/imgs/triple.jpg)
 10. Leave about 3cm of space between the L298N and affix the battery holder.
+![](doc/imgs/3cm.jpg)
 11. Connect the battery holder with the L298N
 12. Position the front wheel on the underside of the body. Poke holes where the screws should go. The screws should be immediately after (or just a small gap) the battery holder.
+![](doc/imgs/frontwheel.jpg)
 13. Screw in the front wheel.
 14. 3D print the ESP32-CAM holders. 3D models available [here](https://github.com/leeyanhuilyh/ESP32-CAM_Holder)
 15. Screw down the holders where there is space.
 16. Finally, cut out a small hole in front of the holders for the switch to fit through.
+![](doc/imgs/switch.jpg)
 17. Connect the switch. This could be done either by soldering the wires to the contacts, or by using quick connects.
 18. Upload the code to the boards (Please refer to previous sections).
 19. Make the connections of the ESP32-CAM and the switch.
 20. Test it out!
 
 (Note: if the ESP32-CAM boards are not stable, affix them to the holders with tape)
+
+## Making the cover of the vehicle
+
+1. Place 4 thin velcro strips along the side of the sides of the vehicle.
+![](doc/imgs/velcro.jpg)
+2. There are 3 parts to the cover: the left and right side, and the top. Plan out the design you would like to make. A few tips to note: 
+  * The sides should be reinforced with 2 corrugated boards just like the body, so as to provide enough space to place the velcro strips.
+  * The length should be at least 20cm so as to cover the length of the body.
+  * Use hot glue to make sure that the boards stick together well.
+![](doc/imgs/cover.jpg)
+3. Put the cover onto the vehicle. Make sure that the wires can be packed into the vehicle, and that the cover of the vehicle does not obstruct the view of the cameras.
+![](doc/imgs/full.jpg)
 
 ## Connecting to the vehicle
 
